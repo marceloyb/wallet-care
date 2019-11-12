@@ -1,10 +1,11 @@
 from flask import Flask
 from flask_restful import Api
+from flask import request
 
-app = Flask('talk-scheduling')
+app = Flask('wallet-care')
 api = Api(app)
 
 
-@app.route('/', methods=['GET'])
-def get():
+@app.route('/')
+def index():
     return "Server talk scheduling up"
