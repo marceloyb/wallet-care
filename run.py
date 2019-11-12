@@ -1,9 +1,4 @@
-import os
-
-from instance import create_app
-
-config_name = os.getenv('APP_SETTINGS') # config_name = "development"
-app = create_app(config_name)
+from src import *
 
 if __name__ == '__main__':
-    app.run()
+    controller.config.app.run(port=5002)
