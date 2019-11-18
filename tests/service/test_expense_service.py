@@ -39,10 +39,9 @@ class ConfigTest(unittest.TestCase):
 
         self.assertEqual(expected_value, value)
 
-
 # Enum categories validation
 
-    def test_category_validation(self):
+    def test_category_validation_positive(self):
         expected_value = 'Restaurante'
 
         self.assertEqual('Restaurante', expected_value)

@@ -8,6 +8,7 @@ class Expense:
         input_date_format = '%d/%m/%Y'
         database_date_format = '%Y-%m-%d'
         
+        # converting from DD/MM/YYYY to YYYY-MM-DD
         try:
             date = datetime.datetime.strptime(input_date, input_date_format).strftime(database_date_format)
             return date            
@@ -18,16 +19,16 @@ class Expense:
 
     @classmethod
     def value_validation(cls, input_value):
-        database_input = re.sub('[^0-9.]', '', input_value)
+        database_value = re.sub('[^0-9.]', '', input_value)
 
-        if not database_input:
+        if not database_value:
             return 'Value input is in bad format' 
         else:
-            return float(database_input)
+            return float(database_value)
 
     @classmethod
     def insert(cls, json):
-        insert_expense_date = cls.date_validation(json['date'])
-        insert_expense_value = cls.value_validation(json['value'])
+        database_expense_date = cls.date_validation(json['date'])
+        database_expense_value = cls.value_validation(json['value'])
 
         return 'All correct, inserted into db'
