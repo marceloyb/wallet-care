@@ -3,7 +3,7 @@ import unittest
 from src.controller import config
 
 class ConfigTest(unittest.TestCase):
-    def set_up(self):
+    def setUp(self):
         self.client = config.app.test_client()
         self.response = self.client.get('/')
 
