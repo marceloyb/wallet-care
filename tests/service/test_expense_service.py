@@ -33,22 +33,56 @@ class ConfigTest(unittest.TestCase):
     
     def test_value_validation_negative(self):
         expected_value = 'Value input is in bad format'
-        test_input = 'cmd injection'
+        test_input = 'cat /etc/passwd'
 
         value = self.service.value_validation(test_input)
 
         self.assertEqual(expected_value, value)
 
-# Enum categories validation
-
     def test_category_validation_positive(self):
-        expected_value = 'Restaurante'
+        expected_value = 'Mercado'
+        test_input = 'Mercado'
 
-        self.assertEqual('Restaurante', expected_value)
+        value = self.service.category_validation(test_input)
+
+        self.assertEqual(expected_value, value)
+
+    def test_category_validation_negative(self):
+        expected_value = 'Invalid category'
+        test_input = 'Balada'
+
+        value = self.service.category_validation(test_input)
+
+        self.assertEqual(expected_value, value)
+
+    def test_comment_validation_positive(self):
+        expected_value = 'Sabores do Lar'
+        test_input = 'Sabores do Lar'
+
+        value = self.service.comment_validation(test_input)
+
+        self.assertEqual(expected_value, value)
+
+    def test_comment_validation_overflow(self):
+        expected_value = 'Comment cant be larger than 20 chars'
+        test_input = 'comentario beeem longo'
+
+        value = self.service.comment_validation(test_input)
+
+        self.assertEqual(expected_value, value)
+
+    def test_comment_validation_illegal_char(self):
+        expected_value = 'Comment contains illegal chars'
+        test_input = 'cat /etc/passwd'
+
+        value = self.service.comment_validation(test_input)
+
+        self.assertEqual(expected_value, value)
 
     def test_create_new_expense(self):
         expected_value = 'All correct, inserted into db'
-        test_json_input = {'value': '5', 'date': '12/11/2019'}
+        test_json_input = {'value': '19.90', 'date': '12/11/2019', 
+        'category': 'Restaurante', 'comment': 'Sabores do Lar'}
 
         value = self.service.insert(test_json_input)
 
