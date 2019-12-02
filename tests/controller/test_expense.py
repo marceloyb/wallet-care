@@ -4,6 +4,7 @@ from src.controller import *
 
 class ConfigTest(unittest.TestCase):
     def setUp(self):
+        config.expense_service_resource_add()
         self.client = config.app.test_client()
 
     def test_create_new_expense(self):
