@@ -79,12 +79,15 @@ class ConfigTest(unittest.TestCase):
 
         self.assertEqual(expected_value, value)
 
+
     def test_validate_full_json_positive(self):
-        expected_value = 'All correct'
+        expected_value = {'value': 19.9, 'date': '2019-11-12', 
+        'category': 'Restaurante', 'comment': 'Sabores do Lar'}
+
         test_json_input = {'value': '19.90', 'date': '12/11/2019', 
         'category': 'Restaurante', 'comment': 'Sabores do Lar'}
 
-        value = self.service.json_validation(test_json_input)
+        value = self.service.json_content_validation(test_json_input)
 
         self.assertEqual(expected_value, value)
 
@@ -93,7 +96,7 @@ class ConfigTest(unittest.TestCase):
         test_json_input = {'value': '19.90', 'date': '12/11/2019', 
         'category': 'Balada', 'comment': 'Sabores do Lar'}
 
-        value = self.service.json_validation(test_json_input)
+        value = self.service.json_content_validation(test_json_input)
 
         self.assertEqual(expected_value, value)
 
@@ -104,5 +107,21 @@ class ConfigTest(unittest.TestCase):
         'category': 'Restaurante', 'comment': 'Sabores do Lar'}
 
         value = self.service.insert(test_json_input)
+
+        self.assertEqual(expected_value, value)
+
+    def test_find_expenses(self):
+        not_expected_value = None
+
+        value = self.service.find()
+
+        self.assertNotEqual(not_expected_value, value)
+
+    def test_remove_expense(self):
+        expected_value = 'All correct, removed from db'
+        test_json_input = {'value': '19.90', 'date': '12/11/2019', 
+        'category': 'Restaurante', 'comment': 'Sabores do Lar'}
+
+        value = self.service.remove(test_json_input)
 
         self.assertEqual(expected_value, value)
