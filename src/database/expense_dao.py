@@ -1,13 +1,13 @@
 from pymongo import MongoClient
 from mongoengine import connect
-from expense import Expense as Model
+from src.database.expense import Expense as Model
+
+client = MongoClient('mongodb://127.0.0.1:27017/wallet-care')
+db = client.wallet_care
+collection = db.expense
+connect('wallet_care')
 
 class ExpenseDao():
-
-    client = MongoClient('mongodb://127.0.0.1:27017/wallet-care')
-    db = client.wallet_care
-    collection = db.expense
-    connect('wallet_care')
 
     def insert(json):
         entity = Model()
@@ -16,10 +16,19 @@ class ExpenseDao():
         entity.category = json['category']
         entity.comment = json['comment']
         result = entity.save()
-        return {'id': str(result.id), 'category': result.category}
 
     def remove(json):
-        db.expense.delete_one(json)
+        entity = Model()
+        entity.value = json['value']
+        entity.date = json['date']
+        entity.category = json['category']
+        entity.comment = json['comment']
+        
+        Model.objects(value=entity.value, date=entity.date,
+        category=entity.category).first().delete()
+
 
     def find():
-        return db.expense.find()
+        entity = Model()
+
+        return Model.objects()

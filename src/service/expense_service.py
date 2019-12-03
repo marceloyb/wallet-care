@@ -1,7 +1,7 @@
 import datetime
 import re
-from src.database import expense_dao
 from enum import Enum
+from src.database.expense_dao import ExpenseDao
 
 class ExpenseCategory(Enum):
 
@@ -59,21 +59,37 @@ class Expense:
         database_expense_comment = cls.comment_validation(json['comment'])
 
         if 'Illegal' in str(database_expense_date):
-            return_message = 'Invalid content'
+            return 'Invalid content'
         elif 'Illegal' in str(database_expense_value):
-            return_message = 'Invalid content'
+            return 'Invalid content'
         elif 'Illegal' in database_expense_category:
-            return_message = 'Invalid content'
+            return 'Invalid content'
         elif 'Illegal' in database_expense_comment:
-            return_message = 'Invalid content'
+            return 'Invalid content'
 
-        return return_message
+        validated_json = {'value': database_expense_value, 'date': database_expense_date, 
+        'category': database_expense_category, 'comment': database_expense_comment}
+        print(validated_json)
+        return validated_json
 
     @classmethod
     def insert(cls, json):
-        validation = cls.json_content_validation(json)
-        if validation == 'All correct':
-            expense_dao.insert(json)
+        validated_json = cls.json_content_validation(json)
+        if validated_json != 'Invalid content':
+            ExpenseDao.insert(validated_json)
             return 'All correct, inserted into db'
         else:
             return 'Illegal Json'
+
+    @classmethod
+    def remove(cls, json):
+        validated_json = cls.json_content_validation(json)
+        if validated_json != 'Invalid content':
+            ExpenseDao.remove(validated_json)
+            return 'All correct, removed from db'
+        else:
+            return 'Illegal Json'
+
+    @classmethod
+    def find(cls):
+        return ExpenseDao.find()
